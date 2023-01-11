@@ -31,6 +31,7 @@ func Login(c *gin.Context) {
 	session.Set("id", user.Id)
 	session.Set("username", username)
 	session.Set("role", user.Role)
+	session.Set("display_name", user.DisplayName)
 	err := session.Save()
 	if err != nil {
 		c.HTML(http.StatusForbidden, "login.html", gin.H{

@@ -53,6 +53,7 @@ func GetManagePage(c *gin.Context) {
 	var uptime = time.Since(common.StartTime)
 	session := sessions.Default(c)
 	role := session.Get("role")
+	display_name := session.Get("display_name")
 	c.HTML(http.StatusOK, "manage.html", gin.H{
 		"message":                 "",
 		"option":                  common.OptionMap,
@@ -60,13 +61,12 @@ func GetManagePage(c *gin.Context) {
 		"uptime":                  common.Seconds2Time(int(uptime.Seconds())),
 		"userNum":                 model.CountTable("users"),
 		"fileNum":                 model.CountTable("files"),
-		"imageNum":                model.CountTable("images"),
 		"FileUploadPermission":    common.FileUploadPermission,
 		"FileDownloadPermission":  common.FileDownloadPermission,
 		"ImageUploadPermission":   common.ImageUploadPermission,
 		"ImageDownloadPermission": common.ImageDownloadPermission,
 		"isAdmin":                 role == common.RoleAdminUser,
-		"StatEnabled":             common.StatEnabled,
+		"display_name":            display_name,
 	})
 }
 

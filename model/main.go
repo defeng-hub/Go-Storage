@@ -22,6 +22,7 @@ func createAdminAccount() {
 	}).FirstOrCreate(&user)
 }
 
+// CountTable 获取某个表长度
 func CountTable(tableName string) (num int) {
 	DB.Table(tableName).Count(&num)
 	return

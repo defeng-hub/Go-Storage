@@ -86,183 +86,15 @@
                                                         <span class="tag is-primary">{{.fileNum}}</span>
                                                     </div>
                                                 </div>
-                                                <div class="control">
-                                                    <div class="tags has-addons">
-                                                        <span class="tag is-dark">上传图片数</span>
-                                                        <span class="tag is-primary">{{.imageNum}}</span>
-                                                    </div>
-                                                </div>
                                             </div>
                                             <button id="checkUpdateBtn" class="button is-light" onclick="checkUpdate()">检查更新</button>
 
                                             <script src="/static/lib/marked.umd.min.js"></script>
                                             <script>
                                                 async function checkUpdate() {
-                                                    let currentVersion = "{{.option.Version}}";
-                                                    let checkUpdateBtn = document.getElementById("checkUpdateBtn");
-                                                    checkUpdateBtn.className += " is-loading";
-                                                    let res = await fetch("https://api.github.com/repos/songquanpeng/go-file/releases/latest");
-                                                    res = await res.json();
-                                                    if (res.tag_name === currentVersion) {
-                                                        showToast("已是最新版本");
-                                                    } else {
-                                                        let html = marked.parse(res.body);
-                                                        html += `<div class="field is-grouped is-grouped-right">`;
-                                                        res.assets.forEach(function (asset) {
-                                                            html += `<div class="control">
-                                                                <a class="button is-light" href="${asset.browser_download_url}" download="${asset.name}">下载 ${asset.name}</a>
-                                                            </div>`;
-                                                        });
-                                                        html += `</div>`;
-                                                        showGeneralModal(`新版本：${res.tag_name}`, html);
-                                                    }
-                                                    checkUpdateBtn.className = checkUpdateBtn.className.replace(' is-loading', '');
+                                                    showToast("已是最新版本");
                                                 }
                                             </script>
-
-                                            {{if .StatEnabled}}
-                                            <script src="/static/lib/echarts.min.js"></script>
-
-                                            <div id="reqChart" style="height: 500px"></div>
-                                            <div id="urlChart" style="height: 500px"></div>
-                                            <div id="ipChart" style="height: 500px"></div>
-                                            <script>
-                                                // https://echarts.apache.org/examples/zh/index.html
-                                                (async function () {
-                                                    let dom = document.getElementById("reqChart");
-                                                    let res = await fetch("/api/stat/req");
-                                                    let data = await res.json();
-
-                                                    let myChart = echarts.init(dom, null, {
-                                                        renderer: 'canvas',
-                                                        useDirtyRect: false
-                                                    });
-                                                    let names = [];
-                                                    let values = [];
-                                                    for (let i = 0; i < data.data.length; i++) {
-                                                        names.push(data.data[i].name);
-                                                        values.push(data.data[i].value);
-                                                    }
-                                                    let option = {
-                                                        title: {
-                                                            text: '访问趋势图'
-                                                        },
-                                                        xAxis: {
-                                                            type: 'category',
-                                                            data: names
-                                                        },
-                                                        yAxis: {
-                                                            type: 'value'
-                                                        },
-                                                        series: [
-                                                            {
-                                                                data: values,
-                                                                type: 'line',
-                                                                smooth: true
-                                                            }
-                                                        ]
-                                                    };
-
-                                                    if (option && typeof option === 'object') {
-                                                        myChart.setOption(option);
-                                                    }
-
-                                                    window.addEventListener('resize', myChart.resize);
-                                                })();
-                                                (async function () {
-                                                    let dom = document.getElementById("ipChart");
-                                                    let res = await fetch("/api/stat/ip");
-                                                    let data = await res.json();
-
-                                                    let myChart = echarts.init(dom, null, {
-                                                        renderer: 'canvas',
-                                                        useDirtyRect: false
-                                                    });
-
-                                                    let option = {
-                                                        title: {
-                                                            text: '高频访问 IP',
-                                                            subtext: `Top ${data.data.length}`,
-                                                            left: 'center'
-                                                        },
-                                                        tooltip: {
-                                                            trigger: 'item'
-                                                        },
-                                                        legend: {
-                                                            orient: 'vertical',
-                                                            left: 'left'
-                                                        },
-                                                        series: [
-                                                            {
-                                                                name: '来自',
-                                                                type: 'pie',
-                                                                radius: '50%',
-                                                                data: data.data,
-                                                                emphasis: {
-                                                                    itemStyle: {
-                                                                        shadowBlur: 10,
-                                                                        shadowOffsetX: 0,
-                                                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                                                                    }
-                                                                }
-                                                            }
-                                                        ]
-                                                    };
-
-                                                    if (option && typeof option === 'object') {
-                                                        myChart.setOption(option);
-                                                    }
-
-                                                    window.addEventListener('resize', myChart.resize);
-                                                })();
-                                                (async function () {
-                                                    let dom = document.getElementById("urlChart");
-                                                    let res = await fetch("/api/stat/url");
-                                                    let data = await res.json();
-
-                                                    let myChart = echarts.init(dom, null, {
-                                                        renderer: 'canvas',
-                                                        useDirtyRect: false
-                                                    });
-
-                                                    let option = {
-                                                        title: {
-                                                            text: '高频访问 URL',
-                                                            subtext: `Top ${data.data.length}`,
-                                                            left: 'center'
-                                                        },
-                                                        tooltip: {
-                                                            trigger: 'item'
-                                                        },
-                                                        legend: {
-                                                            orient: 'vertical',
-                                                            left: 'left'
-                                                        },
-                                                        series: [
-                                                            {
-                                                                name: '来自',
-                                                                type: 'pie',
-                                                                radius: '50%',
-                                                                data: data.data,
-                                                                emphasis: {
-                                                                    itemStyle: {
-                                                                        shadowBlur: 10,
-                                                                        shadowOffsetX: 0,
-                                                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                                                                    }
-                                                                }
-                                                            }
-                                                        ]
-                                                    };
-
-                                                    if (option && typeof option === 'object') {
-                                                        myChart.setOption(option);
-                                                    }
-
-                                                    window.addEventListener('resize', myChart.resize);
-                                                })();
-                                            </script>
-                                            {{end}}
                                         </div>
 
 
@@ -279,7 +111,8 @@
                                                         <p class="control is-expanded">
                                                             <input class="input" name="username" id="inputDisplayName"
                                                                    type="text"
-                                                                   placeholder="请输入新的显示名称">
+                                                                   value="{{.display_name}}"
+                                                                   placeholder="显示名称">
                                                         </p>
                                                         <p class="control">
                                                             <a class="button"

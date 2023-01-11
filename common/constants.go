@@ -11,7 +11,7 @@ import (
 )
 
 var StartTime = time.Now()
-var Version = "v1.3.0"
+var Version = "v1.0.0"
 var OptionMap map[string]string
 
 // ItemsPerPage 首页每页显示12个
