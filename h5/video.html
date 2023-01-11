@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+{{template "header" .}}
+
+{{/*<link rel="stylesheet" type="text/css" href="/static/static/mui-player.min.css"/>*/}}
+<link rel="stylesheet" type="text/css" href="https://muiplayer.js.org/css/mui-player.min.css"/>
+<!-- 引入基础脚本 mui-player.min.js -->
+<script type="text/javascript" src="https://muiplayer.js.org/js/mui-player.min.js"></script>
+
+<body style="height: 100%">
+<div>
+    {{template "nav" .}}
+    <div class="container">
+        <article id="messageToast" class="message is-danger" style="display: none">
+            <div class="message-body" id="messageToastText">
+
+            </div>
+        </article>
+        {{template "progress"}}
+        <div class="columns" style="margin-top: 32px">
+            <div class="column is-four-fifths">
+{{/*                <video controls width="100%" id="videoPlayer">*/}}
+{{/*                    <source src="{{.videoPath}}" id="videoSrc">*/}}
+{{/*                </video>*/}}
+                <div id="mui-player" style="height: 500px"></div>
+            </div>
+            <div class="column">
+                <table class="table is-fullwidth">
+                    <tbody>
+                    {{range $index, $file := .files}}
+                    <tr style="font-size: smaller">
+                        {{if $file.IsFolder }}
+                        <td><a class="folder-link" href="{{$file.Link}}">📁 {{$file.Name}}</a></td>
+                        {{ else }}
+                        <td><a class="file-link" onclick='playVideo("{{$file.Link}}","{{$file.Name}}")'>🎞️ {{$file.Name}}</a></td>
+                        {{ end }}
+                    </tr>
+                    {{end}}
+                    </tbody>
+                </table>
+            </div>
+            <script>
+                let mp = new MuiPlayer({
+                    container:'#mui-player',
+                    title:{{.videoName}},
+                    src: {{.videoPath}},
+                    height:500
+                })
+                async function playVideo(src,name) {
+                    new MuiPlayer({
+                        container:'#mui-player',
+                        title:name,
+                        src:src,
+                    })
+                    // document.getElementById('videoSrc').src = src;
+                    // let player = document.getElementById('videoPlayer');
+                    // await player.load();
+                    // player.play();
+                }
+            </script>
+        </div>
+    </div>
+    {{template "footer" .}}
+</div>
+
+{{template "modal"}}
+{{template "notice" .}}
+
+</body>
+</html>

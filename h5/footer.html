@@ -1,0 +1,13 @@
+{{define "footer"}}
+    <footer class="footer" style="background-color: white">
+        <div class="content has-text-centered" >
+            {{if .option.FooterInfo}}
+                {{.option.FooterInfo | unescape}}
+            {{else}}
+            <p>
+                由 <a href="https://github.com/defeng-hub">defeng-hub</a> 构建，
+            </p>
+            {{end}}
+        </div>
+    </footer>
+{{end}}
