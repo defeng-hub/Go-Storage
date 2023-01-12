@@ -12,8 +12,8 @@ import (
 
 var _ oss.Service = (*QiniuYunImpl)(nil)
 var (
-	AccessKey string = "kt1DKrkbmtrw2-CcXu4VEAC_4Sw4Ox7TVo-wMZuU"
-	SecretKey string = "TSmldk2BKtJH6Aqy-V9pFfMF4570ixeXRn0KbEh8"
+	AccessKey string = "xxx"
+	SecretKey string = "xxx"
 	Bucket    string = "defenga"
 	Config           = storage.Config{}
 	Address   string = "https://pic.bythedu.com"
