@@ -2,7 +2,6 @@ package controller
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"github.com/defeng-hub/Go-Storage/common"
 	"github.com/defeng-hub/Go-Storage/model"
@@ -14,12 +13,13 @@ import (
 	"time"
 )
 
-type ImageDeleteRequest struct {
-	Filename string `json:"filename"`
-	//Token    string
-}
+//type ImageDeleteRequest struct {
+//	Filename string `json:"filename"`
+//	//Token    string
+//}
 
 func UploadImage(c *gin.Context) {
+	GetOssImpl()
 	uploadPath := common.UploadPath
 	description := c.PostForm("description")
 	uploader := c.GetString("username")
@@ -104,40 +104,4 @@ func UploadImage(c *gin.Context) {
 	return
 	//------------------------
 
-}
-
-func DeleteImage(c *gin.Context) {
-	var deleteRequest ImageDeleteRequest
-	err := json.NewDecoder(c.Request.Body).Decode(&deleteRequest)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"success": false,
-			"message": "无效的参数",
-		})
-		return
-	}
-
-	imageObj := &model.Image{
-		Filename: deleteRequest.Filename,
-	}
-	rowsAffected := model.DB.Where("filename = ?", deleteRequest.Filename).First(&imageObj).RowsAffected
-	if rowsAffected == 0 {
-		c.JSON(http.StatusOK, gin.H{
-			"success": false,
-			"message": "文件不存在！",
-		})
-		return
-	}
-	err = imageObj.Delete()
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"success": true,
-			"message": err.Error(),
-		})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{
-		"success": true,
-		"message": "",
-	})
 }

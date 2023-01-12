@@ -67,6 +67,7 @@ func GetManagePage(c *gin.Context) {
 		"ImageDownloadPermission": common.ImageDownloadPermission,
 		"isAdmin":                 role == common.RoleAdminUser,
 		"display_name":            display_name,
+		"OssType":                 common.OptionMap["OssType"],
 	})
 }
 

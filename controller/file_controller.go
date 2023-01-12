@@ -6,12 +6,14 @@ import (
 	"fmt"
 	"github.com/defeng-hub/Go-Storage/common"
 	"github.com/defeng-hub/Go-Storage/model"
+	"github.com/defeng-hub/Go-Storage/oss"
 	"github.com/defeng-hub/Go-Storage/oss/impl"
 	"github.com/gin-gonic/gin"
 	"mime/multipart"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -21,9 +23,26 @@ type FileDeleteRequest struct {
 	Link string
 }
 
-var yunImpl impl.QiniuYunImpl
+var yunImpl oss.Service
+
+// GetOssImpl 获取存储引擎示例
+func GetOssImpl() oss.Service {
+	OssType, _ := strconv.Atoi(common.OptionMap["OssType"])
+	switch OssType {
+	case common.QiniuYun:
+		yunImpl = impl.QiniuYunImpl{}
+	case common.AliYun:
+		yunImpl = impl.AliYunImpl{}
+	case common.TxYun:
+		fmt.Println("TxYun")
+	default:
+		yunImpl = impl.QiniuYunImpl{}
+	}
+	return yunImpl
+}
 
 func UploadFile(c *gin.Context) {
+	GetOssImpl()
 	uploadPath := common.UploadPath
 	description := c.PostForm("description")
 	uploader := c.GetString("username")
@@ -97,6 +116,7 @@ func UploadFile(c *gin.Context) {
 }
 
 func DeleteFile(c *gin.Context) {
+	GetOssImpl()
 	var deleteRequest FileDeleteRequest
 	err := json.NewDecoder(c.Request.Body).Decode(&deleteRequest)
 	if err != nil {

@@ -2,7 +2,6 @@ package common
 
 import (
 	"flag"
-	"fmt"
 	"github.com/google/uuid"
 	"os"
 	"path/filepath"
@@ -12,16 +11,8 @@ import (
 var StartTime = time.Now()
 var Version = "v1.0.0"
 var OptionMap map[string]string
-
-// ItemsPerPage 首页每页显示12个
-var ItemsPerPage = 12
-
-// AbstractTextLength 文本摘要长度
-var AbstractTextLength = 40
-
-var ExplorerCacheEnabled = false // After my test, enable this will make the server slower...
-
-var StatEnabled = false // 本来是true
+var ItemsPerPage = 12       // 首页每页显示12个
+var AbstractTextLength = 40 //文本摘要长度
 var StatIPNum = 20
 var StatURLNum = 20
 
@@ -30,19 +21,20 @@ const (
 	RoleCommonUser = 1  // 用户权限
 	RoleAdminUser  = 10 //管理员权限
 )
+const (
+	QiniuYun = 1
+	AliYun   = 2
+	TxYun    = 3
+)
+
+// OssType 存储引擎，默认为七牛云
+var OssType = QiniuYun
 
 var (
 	FileUploadPermission    = RoleGuestUser
 	FileDownloadPermission  = RoleGuestUser
 	ImageUploadPermission   = RoleGuestUser
 	ImageDownloadPermission = RoleGuestUser
-)
-
-var (
-	GlobalApiRateLimit = 20
-	GlobalWebRateLimit = 60
-	DownloadRateLimit  = 10
-	CriticalRateLimit  = 3
 )
 
 const (
@@ -54,37 +46,29 @@ var (
 	Port          = flag.Int("port", 3000, "specify the server listening port")
 	Host          = flag.String("host", "localhost", "the server's ip address or domain")
 	IsOpenBrowser = flag.Bool("is-open-browser", true, "open browser or not")
-	PrintVersion  = flag.Bool("version", false, "print version")
 	QiniuAK       = flag.String("Qiniu_AK", "", "七牛云AK")
 	QiniuSK       = flag.String("Qiniu_SK", "", "七牛云SK")
+	AliAK         = flag.String("Ali_AK", "", "阿里云AK")
+	AliSK         = flag.String("Ali_SK", "", "阿里云SK")
+	TxAK          = flag.String("Tx_AK", "", "腾讯云AK")
+	TxSK          = flag.String("Tx_SK", "", "腾讯云SK")
 )
 
 var UploadPath = "upload"
 var ExplorerRootPath = "upload"
 var ImageUploadPath = "upload"
 var VideoServePath = "upload"
-
 var SessionSecret = uuid.New().String()
 
 func init() {
 	flag.Parse()
 
-	if *PrintVersion {
-		fmt.Println(Version)
-		os.Exit(0)
-	}
+	// 获取 七牛云，阿里云，腾讯云的AK和SK
+	getOssAKAndSK()
 
 	if os.Getenv("SESSION_SECRET") != "" {
 		SessionSecret = os.Getenv("SESSION_SECRET")
 	}
-	// 七牛云获取ak sk
-	if os.Getenv("Qiniu_AK") != "" {
-		*QiniuAK = os.Getenv("Qiniu_AK")
-	}
-	if os.Getenv("Qiniu_SK") != "" {
-		*QiniuSK = os.Getenv("Qiniu_SK")
-	}
-
 	if os.Getenv("UPLOAD_PATH") != "" {
 		UploadPath = os.Getenv("UPLOAD_PATH")
 		ExplorerRootPath = UploadPath
@@ -97,6 +81,36 @@ func init() {
 	ImageUploadPath, _ = filepath.Abs(ImageUploadPath)
 	makeDir()
 }
+
+// 获取 七牛云，阿里云，腾讯云的AK和SK
+func getOssAKAndSK() {
+	// 七牛云获取ak sk
+	if tmp := os.Getenv("Qiniu_AK"); tmp != "" {
+		*QiniuAK = tmp
+	}
+	if tmp := os.Getenv("Qiniu_SK"); tmp != "" {
+		*QiniuSK = tmp
+	}
+
+	// 阿里云获取ak sk
+	if tmp := os.Getenv("Ali_AK"); tmp != "" {
+		*AliAK = tmp
+	}
+	if tmp := os.Getenv("Ali_SK"); tmp != "" {
+		*AliSK = tmp
+	}
+
+	// 腾讯云获取ak sk
+	if tmp := os.Getenv("Tx_AK"); tmp != "" {
+		*TxAK = tmp
+	}
+	if tmp := os.Getenv("Tx_SK"); tmp != "" {
+		*TxSK = tmp
+	}
+
+}
+
+// 创建目录，防止没有
 func makeDir() {
 	if _, err := os.Stat(UploadPath); os.IsNotExist(err) {
 		_ = os.Mkdir(UploadPath, 0777)

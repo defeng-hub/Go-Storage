@@ -43,7 +43,7 @@ func UpdateOption(c *gin.Context) {
 		})
 		return
 	}
-
+	common.OptionMap[option.Key] = option.Value
 	c.JSON(http.StatusOK, gin.H{
 		"success": true,
 		"message": "成功",
