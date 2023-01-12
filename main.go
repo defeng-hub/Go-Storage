@@ -37,12 +37,6 @@ func main() {
 	}
 	defer db.Close()
 
-	// Initialize Redis
-	//err = common.InitRedisClient()
-	//if err != nil {
-	//	log.Fatal(err.Error())
-	//}
-
 	// Initialize options
 	model.InitOptionMap()
 
@@ -67,7 +61,7 @@ func main() {
 		}
 	}
 	serverUrl := "http://" + *common.Host + ":" + realPort + "/"
-	if !*common.NoBrowser {
+	if *common.IsOpenBrowser {
 		common.OpenBrowser(serverUrl)
 	}
 

@@ -3,6 +3,7 @@ package impl
 import (
 	"context"
 	"fmt"
+	"github.com/defeng-hub/Go-Storage/common"
 	"github.com/defeng-hub/Go-Storage/model"
 	"github.com/defeng-hub/Go-Storage/oss"
 	"github.com/qiniu/go-sdk/v7/auth/qbox"
@@ -12,8 +13,8 @@ import (
 
 var _ oss.Service = (*QiniuYunImpl)(nil)
 var (
-	AccessKey string = "xxx"
-	SecretKey string = "xxx"
+	AccessKey string = ""
+	SecretKey string = ""
 	Bucket    string = "defenga"
 	Config           = storage.Config{}
 	Address   string = "https://pic.bythedu.com"
@@ -24,7 +25,8 @@ type QiniuYunImpl struct {
 }
 
 func init() {
-
+	AccessKey = *common.QiniuAK
+	SecretKey = *common.QiniuSK
 	// 空间对应的机房
 	Config.Zone = &storage.ZoneHuanan
 	// 是否使用https域名
@@ -32,7 +34,6 @@ func init() {
 	// 上传是否使用CDN上传加速
 	Config.UseCdnDomains = false
 	mac = qbox.NewMac(AccessKey, SecretKey)
-
 }
 
 func (q QiniuYunImpl) CreateFile(ctx context.Context, file *model.File) (*model.File, error) {

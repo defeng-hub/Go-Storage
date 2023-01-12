@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/google/uuid"
 	"os"
-	"path"
 	"path/filepath"
 	"time"
 )
@@ -52,11 +51,12 @@ const (
 )
 
 var (
-	Port         = flag.Int("port", 3000, "specify the server listening port")
-	Host         = flag.String("host", "localhost", "the server's ip address or domain")
-	Path         = flag.String("path", "", "specify a local path to public")
-	NoBrowser    = flag.Bool("no-browser", false, "open browser or not")
-	PrintVersion = flag.Bool("version", false, "print version")
+	Port          = flag.Int("port", 3000, "specify the server listening port")
+	Host          = flag.String("host", "localhost", "the server's ip address or domain")
+	IsOpenBrowser = flag.Bool("is-open-browser", true, "open browser or not")
+	PrintVersion  = flag.Bool("version", false, "print version")
+	QiniuAK       = flag.String("Qiniu_AK", "", "七牛云AK")
+	QiniuSK       = flag.String("Qiniu_SK", "", "七牛云SK")
 )
 
 var UploadPath = "upload"
@@ -77,25 +77,37 @@ func init() {
 	if os.Getenv("SESSION_SECRET") != "" {
 		SessionSecret = os.Getenv("SESSION_SECRET")
 	}
+	// 七牛云获取ak sk
+	if os.Getenv("Qiniu_AK") != "" {
+		*QiniuAK = os.Getenv("Qiniu_AK")
+	}
+	if os.Getenv("Qiniu_SK") != "" {
+		*QiniuSK = os.Getenv("Qiniu_SK")
+	}
 
 	if os.Getenv("UPLOAD_PATH") != "" {
 		UploadPath = os.Getenv("UPLOAD_PATH")
 		ExplorerRootPath = UploadPath
-		ImageUploadPath = path.Join(UploadPath, "images")
+		ImageUploadPath = UploadPath
 		VideoServePath = UploadPath
-	}
-	if *Path != "" {
-		ExplorerRootPath = *Path
 	}
 
 	ExplorerRootPath, _ = filepath.Abs(ExplorerRootPath)
 	VideoServePath, _ = filepath.Abs(VideoServePath)
 	ImageUploadPath, _ = filepath.Abs(ImageUploadPath)
-
+	makeDir()
+}
+func makeDir() {
 	if _, err := os.Stat(UploadPath); os.IsNotExist(err) {
 		_ = os.Mkdir(UploadPath, 0777)
 	}
 	if _, err := os.Stat(ImageUploadPath); os.IsNotExist(err) {
 		_ = os.Mkdir(ImageUploadPath, 0777)
+	}
+	if _, err := os.Stat(VideoServePath); os.IsNotExist(err) {
+		_ = os.Mkdir(ImageUploadPath, 0777)
+	}
+	if _, err := os.Stat(ExplorerRootPath); os.IsNotExist(err) {
+		_ = os.Mkdir(ExplorerRootPath, 0777)
 	}
 }
