@@ -47,41 +47,25 @@ func rateLimitHelper(c *gin.Context, maxRequestPerMinute int, mark string) {
 
 func GlobalWebRateLimit() func(c *gin.Context) {
 	return func(c *gin.Context) {
-		if common.RedisEnabled {
-			rateLimitHelper(c, common.GlobalWebRateLimit, "GW")
-		} else {
-			c.Next()
-		}
+		c.Next()
 	}
 }
 
 func GlobalAPIRateLimit() func(c *gin.Context) {
 	return func(c *gin.Context) {
-		if common.RedisEnabled {
-			rateLimitHelper(c, common.GlobalApiRateLimit, "GA")
-		} else {
-			c.Next()
-		}
+		c.Next()
 	}
 }
 
 func CriticalRateLimit() func(c *gin.Context) {
 	return func(c *gin.Context) {
-		if common.RedisEnabled {
-			rateLimitHelper(c, common.CriticalRateLimit, "CT")
-		} else {
-			c.Next()
-		}
+		c.Next()
 
 	}
 }
 
 func DownloadRateLimit() func(c *gin.Context) {
 	return func(c *gin.Context) {
-		if common.RedisEnabled {
-			rateLimitHelper(c, common.DownloadRateLimit, "CM")
-		} else {
-			c.Next()
-		}
+		c.Next()
 	}
 }

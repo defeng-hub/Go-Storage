@@ -1,10 +1,9 @@
 package model
 
 import (
+	"github.com/defeng-hub/Go-Storage/common"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-
-	"github.com/defeng-hub/Go-Storage/common"
 	"log"
 	"os"
 )
