@@ -4,13 +4,13 @@
 <body>
 <div>
     {{template "nav" .}}
+
     <div class="container">
         <div class="normal-container">
             <article id="messageToast" class="message is-danger" style="display: none">
-                <div class="message-body" id="messageToastText">
-
-                </div>
+                <div class="message-body" id="messageToastText"></div>
             </article>
+
             {{if not .files}}
             <div class="box">
                 <div class="table-container">
@@ -33,7 +33,11 @@
                 </div>
             </div>
             {{end}}
+
+            {{/* 进度条*/}}
             {{template "progress"}}
+            {{/* 公告*/}}
+            {{template "notice" .}}
             <div class="columns is-multiline is-center">
 
                 {{range $index, $file := .files}}
@@ -110,7 +114,7 @@
 </div>
 
 {{template "modal"}}
-{{template "notice" .}}
+
 
 </body>
 </html>

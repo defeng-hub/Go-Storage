@@ -25,6 +25,7 @@ Qiniu_SK=xxx;
 //数据库的地址
 SQL_DSN=root:123456@tcp(127.0.0.1:3306)/go_storage;
 ```
+![https://pic.bythedu.com/gofile/微信截图_20230114134626_2023-01-14_13-47-52.png](https://pic.bythedu.com/gofile/微信截图_20230114134626_2023-01-14_13-47-52.png)
 
 ![截图](https://pic.bythedu.com/defeng_boke/Snipaste_2023-01-12_16-17-38_1673511493244.png)
 

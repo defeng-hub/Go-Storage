@@ -21,14 +21,19 @@ const (
 	RoleCommonUser = 1  // 用户权限
 	RoleAdminUser  = 10 //管理员权限
 )
+
+// RunUrl 当设置为本地存储时, 必须设置访问域名 会将其拼接成为 图片存储的url地址
+var RunUrl = "http://127.0.0.1:3000"
+
 const (
-	QiniuYun = 1
-	AliYun   = 2
-	TxYun    = 3
+	LocalStorage = 0 // 本地存储
+	QiniuYun     = 1 // 七牛云
+	AliYun       = 2 // 阿里云
+	TxYun        = 3 // 腾讯云
 )
 
-// OssType 存储引擎，默认为七牛云
-var OssType = QiniuYun
+// OssType 存储引擎，默认为本地存储
+var OssType = LocalStorage
 
 var (
 	FileUploadPermission    = RoleGuestUser

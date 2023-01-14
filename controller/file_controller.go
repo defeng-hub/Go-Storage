@@ -29,6 +29,8 @@ var yunImpl oss.Service
 func GetOssImpl() oss.Service {
 	OssType, _ := strconv.Atoi(common.OptionMap["OssType"])
 	switch OssType {
+	case common.LocalStorage:
+		yunImpl = impl.LocalStorageImpl{}
 	case common.QiniuYun:
 		yunImpl = impl.QiniuYunImpl{}
 	case common.AliYun:
@@ -36,7 +38,7 @@ func GetOssImpl() oss.Service {
 	case common.TxYun:
 		fmt.Println("TxYun")
 	default:
-		yunImpl = impl.QiniuYunImpl{}
+		yunImpl = impl.LocalStorageImpl{}
 	}
 	return yunImpl
 }
