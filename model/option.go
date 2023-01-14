@@ -28,7 +28,7 @@ func InitOptionMap() {
 	common.OptionMap["FooterInfo"] = ""
 	common.OptionMap["Version"] = common.Version
 	common.OptionMap["Notice"] = ""
-	common.OptionMap["OssType"] = strconv.Itoa(common.OssType) //初始化 存储类型为七牛云
+	common.OptionMap["OssType"] = strconv.Itoa(*common.OssType) //初始化 存储类型为七牛云
 	options, _ := AllOption()
 	for _, option := range options {
 		updateOptionMap(option.Key, option.Value)

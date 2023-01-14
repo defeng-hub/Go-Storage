@@ -5,6 +5,7 @@ import (
 	"github.com/google/uuid"
 	"os"
 	"path/filepath"
+	"strconv"
 	"time"
 )
 
@@ -32,9 +33,6 @@ const (
 	TxYun        = 3 // 腾讯云
 )
 
-// OssType 存储引擎，默认为本地存储
-var OssType = LocalStorage
-
 var (
 	FileUploadPermission    = RoleGuestUser
 	FileDownloadPermission  = RoleGuestUser
@@ -51,6 +49,7 @@ var (
 	Port          = flag.Int("port", 3000, "specify the server listening port")
 	Host          = flag.String("host", "localhost", "the server's ip address or domain")
 	IsOpenBrowser = flag.Bool("is-open-browser", true, "open browser or not")
+	OssType       = flag.Int("Oss_Type", LocalStorage, "存储引擎(默认为本地存储)")
 	QiniuAK       = flag.String("Qiniu_AK", "", "七牛云AK")
 	QiniuSK       = flag.String("Qiniu_SK", "", "七牛云SK")
 	AliAK         = flag.String("Ali_AK", "", "阿里云AK")
@@ -71,6 +70,10 @@ func init() {
 	// 获取 七牛云，阿里云，腾讯云的AK和SK
 	getOssAKAndSK()
 
+	if os.Getenv("Oss_Type") != "" {
+		atoi, _ := strconv.Atoi(os.Getenv("Oss_Type"))
+		OssType = &atoi
+	}
 	if os.Getenv("SESSION_SECRET") != "" {
 		SessionSecret = os.Getenv("SESSION_SECRET")
 	}
