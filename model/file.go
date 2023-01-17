@@ -22,7 +22,7 @@ var ShowImg = map[int]string{
 	FileType_img:   "",
 	FileType_mp4:   "https://is2-ssl.mzstatic.com/image/thumb/Purple49/v4/c4/03/02/c40302b1-74c2-de7e-6f91-100ec644cee7/source/1024x1024bb.jpg",
 	FileType_txt:   "/upload/txt.png",
-	FileType_pdf:   "https://www.dugoogle.com/d/file/p/2021/03-15/052f3f1693520ec047b5413b50e33b37.png",
+	FileType_pdf:   "https://img1.baidu.com/it/u=2141119316,2924588576&fm=253&fmt=auto&app=138&f=PNG?w=500&h=500",
 	FileType_yasuo: "https://bpic.588ku.com/element_origin_min_pic/00/15/97/3856aecc11b3d5b.jpg",
 }
 

@@ -22,8 +22,8 @@
                                         {{if .isQuery}}
                                         无匹配文件
                                         {{else}}
-                                        当前无任何文件，请点击 <a class="button is-light" onclick="showUploadModal()">上传</a>
-                                        按钮以上传文件.
+                                            <text style="line-height: 40px;">当前无任何文件，请右上角按钮以上传文件</text>
+                                            <a class="button is-dark" onclick="showUploadModal()">上传</a>
                                         {{end}}
                                     </div>
                                 </div>
@@ -105,7 +105,7 @@
             </div>
 
             <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-                <a class="pagination-previous shadow" href="/?p={{.prev}}">上一页</a>
+                <a class="pagination-previous shadow " href="/?p={{.prev}}">上一页</a>
                 <a class="pagination-next shadow" href="/?p={{.next}}">下一页</a>
             </nav>
         </div>
