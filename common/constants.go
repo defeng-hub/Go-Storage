@@ -45,6 +45,7 @@ const (
 	UserStatusDisabled = 2 // 用户禁用don't use 0
 )
 
+// 解析入参
 var (
 	Port          = flag.Int("port", 3000, "specify the server listening port")
 	Host          = flag.String("host", "localhost", "the server's ip address or domain")
@@ -70,6 +71,7 @@ func init() {
 	// 获取 七牛云，阿里云，腾讯云的AK和SK
 	getOssAKAndSK()
 
+	//读取环境变量
 	if os.Getenv("Oss_Type") != "" {
 		atoi, _ := strconv.Atoi(os.Getenv("Oss_Type"))
 		OssType = &atoi
