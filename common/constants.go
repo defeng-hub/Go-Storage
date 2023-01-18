@@ -45,7 +45,7 @@ const (
 	UserStatusDisabled = 2 // 用户禁用don't use 0
 )
 
-// 解析入参
+// 解析入参  需要带上--,例如 --port
 var (
 	Port          = flag.Int("port", 3000, "specify the server listening port")
 	Host          = flag.String("host", "localhost", "the server's ip address or domain")
@@ -85,7 +85,6 @@ func init() {
 		ImageUploadPath = UploadPath
 		VideoServePath = UploadPath
 	}
-
 	ExplorerRootPath, _ = filepath.Abs(ExplorerRootPath)
 	VideoServePath, _ = filepath.Abs(VideoServePath)
 	ImageUploadPath, _ = filepath.Abs(ImageUploadPath)
