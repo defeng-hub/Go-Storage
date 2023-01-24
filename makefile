@@ -1,1 +1,5 @@
-run: cmd
+run:
+	echo "go-storage"
+
+
+

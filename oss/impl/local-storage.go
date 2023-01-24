@@ -13,7 +13,7 @@ type LocalStorageImpl struct {
 }
 
 func (l LocalStorageImpl) CreateFile(ctx context.Context, file *model.File) (*model.File, error) {
-	file.Url = common.RunUrl + "/upload/" + file.Link
+	file.Url = *common.RunUrl + "/upload/" + file.Link
 	return file, nil
 }
 

@@ -28,10 +28,12 @@ func CountTable(tableName string) (num int) {
 }
 
 func InitDB() (db *gorm.DB, err error) {
-	if os.Getenv("SQL_DSN") != "" {
-		// Use MySQL
-		db, err = gorm.Open("mysql", os.Getenv("SQL_DSN"))
+	if *common.SqlDsn == "" {
+		db, err = gorm.Open("mysql", os.Getenv("Sql_Dsn"))
+	} else {
+		db, err = gorm.Open("mysql", *common.SqlDsn)
 	}
+
 	if err == nil {
 		DB = db
 		db.AutoMigrate(&File{})

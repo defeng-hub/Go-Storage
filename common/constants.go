@@ -2,6 +2,7 @@ package common
 
 import (
 	"flag"
+	"fmt"
 	"github.com/google/uuid"
 	"os"
 	"path/filepath"
@@ -22,9 +23,6 @@ const (
 	RoleCommonUser = 1  // 用户权限
 	RoleAdminUser  = 10 //管理员权限
 )
-
-// RunUrl 当设置为本地存储时, 必须设置访问域名 会将其拼接成为 图片存储的url地址
-var RunUrl = "http://127.0.0.1:3000"
 
 const (
 	LocalStorage = 0 // 本地存储
@@ -47,9 +45,11 @@ const (
 
 // 解析入参  需要带上--,例如 --port
 var (
-	Port          = flag.Int("port", 3000, "specify the server listening port")
-	Host          = flag.String("host", "localhost", "the server's ip address or domain")
-	IsOpenBrowser = flag.Bool("is-open-browser", true, "open browser or not")
+	SqlDsn        = flag.String("Sql_Dsn", "", "数据库DSN")
+	RunUrl        = flag.String("Run_Url", "http://127.0.0.1:3000", "当设置为本地存储时, 必须设置访问域名 会将其拼接成为 图片存储的url地址")
+	Port          = flag.Int("Port", 3000, "specify the server listening port")
+	Host          = flag.String("Host", "localhost", "the server's ip address or domain")
+	IsOpenBrowser = flag.Bool("Is_Open_Browser", true, "open browser or not")
 	OssType       = flag.Int("Oss_Type", LocalStorage, "存储引擎(默认为本地存储)")
 	QiniuAK       = flag.String("Qiniu_AK", "", "七牛云AK")
 	QiniuSK       = flag.String("Qiniu_SK", "", "七牛云SK")
@@ -67,6 +67,7 @@ var SessionSecret = uuid.New().String()
 
 func init() {
 	flag.Parse()
+	fmt.Printf("cccc,%v\n", *RunUrl)
 
 	// 获取 七牛云，阿里云，腾讯云的AK和SK
 	getOssAKAndSK()
@@ -75,6 +76,10 @@ func init() {
 	if os.Getenv("Oss_Type") != "" {
 		atoi, _ := strconv.Atoi(os.Getenv("Oss_Type"))
 		OssType = &atoi
+	}
+	if os.Getenv("Run_Url") != "" {
+		atoi := os.Getenv("Run_Url")
+		*RunUrl = atoi
 	}
 	if os.Getenv("SESSION_SECRET") != "" {
 		SessionSecret = os.Getenv("SESSION_SECRET")
