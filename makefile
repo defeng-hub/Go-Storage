@@ -1,5 +1,6 @@
 echo-version:
 	echo "go-storage"
+	echo "version:v2.0.0"
 
 run:
 	./go-storage \
