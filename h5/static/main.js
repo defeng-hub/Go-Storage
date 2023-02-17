@@ -110,7 +110,9 @@ function byte2mb(n) {
 }
 
 function uploadFile() {
+    //进度条
     let fileUploadCard = document.getElementById('fileUploadCard');
+
     let fileUploadTitle = document.getElementById('fileUploadTitle');
     let fileUploadProgress = document.getElementById('fileUploadProgress');
     let fileUploadDetail = document.getElementById('fileUploadDetail');
@@ -146,15 +148,17 @@ function uploadFile() {
         // setTimeout(()=>{
         //     fileUploadCard.style.display = 'none';
         // }, 5000);
+
     }, false);
     fileUploader.addEventListener("error", ev => {
         if (fileUploader.status === 403) {
             location.href = "/login";
-        } else {
+        }else {
             fileUploadTitle.innerText = `文件上传失败`;
         }
         console.error(ev);
     }, false);
+
     fileUploader.addEventListener("abort", ev => {
         fileUploadTitle.innerText = `文件上传已终止`;
     }, false);

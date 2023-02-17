@@ -4,6 +4,10 @@
 <body>
 <div>
     {{template "nav" .}}
+
+    {{/* 进度条*/}}
+    {{template "progress"}}
+
     <div class="container">
         <div class="narrow-container">
             {{if .message }}

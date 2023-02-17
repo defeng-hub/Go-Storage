@@ -7,7 +7,6 @@ import (
 )
 
 func setApiRouter(router *gin.Engine) {
-	router.Use(middleware.GlobalAPIRateLimit())
 	router.GET("/status", controller.GetStatus)
 
 	//首页上传文件走这里
@@ -19,7 +18,6 @@ func setApiRouter(router *gin.Engine) {
 	basicAuth.Use(middleware.ApiAuth())
 	{
 		basicAuth.DELETE("/file", controller.DeleteFile)
-		//basicAuth.DELETE("/image", controller.DeleteImage)
 		basicAuth.PUT("/user", middleware.NoTokenAuth(), controller.UpdateSelf)
 		basicAuth.POST("/token", controller.GenerateNewUserToken)
 	}

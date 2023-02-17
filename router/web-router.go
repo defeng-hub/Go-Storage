@@ -7,9 +7,8 @@ import (
 )
 
 func setWebRouter(router *gin.Engine) {
-	router.Use(middleware.GlobalWebRateLimit())
 	// Always available
-	router.GET("/", controller.GetIndexPage)
+	router.GET("/", middleware.ShowIndexPermissionCheck(), controller.GetIndexPage)
 	router.GET("/login", controller.GetLoginPage)
 	router.GET("/image", controller.GetImagePage)
 	router.GET("/video", controller.GetVideoPage)
@@ -19,11 +18,8 @@ func setWebRouter(router *gin.Engine) {
 
 	// Download files
 	fileDownloadAuth := router.Group("/")
-	fileDownloadAuth.Use(middleware.FileDownloadPermissionCheck())
 	{
 		fileDownloadAuth.GET("/upload/:file", controller.DownloadFile)
-		//fileDownloadAuth.GET("/upload/images/:file", controller.DownloadFile)
-		//fileDownloadAuth.GET("/explorer", controller.GetExplorerPageOrFile)
 	}
 
 	basicAuth := router.Group("/")

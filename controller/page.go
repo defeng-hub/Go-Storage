@@ -55,19 +55,18 @@ func GetManagePage(c *gin.Context) {
 	role := session.Get("role")
 	display_name := session.Get("display_name")
 	c.HTML(http.StatusOK, "manage.html", gin.H{
-		"message":                 "",
-		"option":                  common.OptionMap,
-		"memory":                  fmt.Sprintf("%d MB", m.Sys/1024/1024),
-		"uptime":                  common.Seconds2Time(int(uptime.Seconds())),
-		"userNum":                 model.CountTable("users"),
-		"fileNum":                 model.CountTable("files"),
-		"FileUploadPermission":    common.FileUploadPermission,
-		"FileDownloadPermission":  common.FileDownloadPermission,
-		"ImageUploadPermission":   common.ImageUploadPermission,
-		"ImageDownloadPermission": common.ImageDownloadPermission,
-		"isAdmin":                 role == common.RoleAdminUser,
-		"display_name":            display_name,
-		"OssType":                 common.OptionMap["OssType"],
+		"message":               "",
+		"option":                common.OptionMap,
+		"memory":                fmt.Sprintf("%d MB", m.Sys/1024/1024),
+		"uptime":                common.Seconds2Time(int(uptime.Seconds())),
+		"userNum":               model.CountTable("users"),
+		"fileNum":               model.CountTable("files"),
+		"FileUploadPermission":  common.FileUploadPermission,
+		"ImageUploadPermission": common.ImageUploadPermission,
+		"IndexPermission":       common.OptionMap["IndexPermission"],
+		"isAdmin":               role == common.RoleAdminUser,
+		"display_name":          display_name,
+		"OssType":               common.OptionMap["OssType"],
 	})
 }
 

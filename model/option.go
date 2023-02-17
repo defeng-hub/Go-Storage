@@ -21,9 +21,8 @@ func AllOption() ([]*Option, error) {
 func InitOptionMap() {
 	common.OptionMap = make(map[string]string)
 	common.OptionMap["FileUploadPermission"] = strconv.Itoa(common.FileUploadPermission)
-	common.OptionMap["FileDownloadPermission"] = strconv.Itoa(common.FileDownloadPermission)
 	common.OptionMap["ImageUploadPermission"] = strconv.Itoa(common.ImageUploadPermission)
-	common.OptionMap["ImageDownloadPermission"] = strconv.Itoa(common.ImageDownloadPermission)
+	common.OptionMap["IndexPermission"] = strconv.Itoa(common.IndexPermission)
 	common.OptionMap["WebsiteName"] = "Go Storage"
 	common.OptionMap["FooterInfo"] = ""
 	common.OptionMap["Version"] = common.Version
@@ -42,12 +41,11 @@ func updateOptionMap(key string, value string) {
 		switch key {
 		case "FileUploadPermission":
 			common.FileUploadPermission = intValue
-		case "FileDownloadPermission":
-			common.FileDownloadPermission = intValue
+
 		case "ImageUploadPermission":
 			common.ImageUploadPermission = intValue
-		case "ImageDownloadPermission":
-			common.ImageDownloadPermission = intValue
+		case "IndexPermission":
+			common.IndexPermission = intValue
 		}
 	}
 }

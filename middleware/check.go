@@ -6,6 +6,7 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 // 检查是否有权限
@@ -34,11 +35,11 @@ func permissionCheckHelper(c *gin.Context, requiredPermission int) {
 		return
 	}
 	if role == nil || role.(int) < requiredPermission {
-		if c.Request.URL.Path == "/explorer" {
-			c.HTML(http.StatusForbidden, "error.html", gin.H{
+		if c.Request.URL.Path == "/" {
+			c.HTML(http.StatusMovedPermanently, "login.html", gin.H{
 				"message": "无权访问此页面，请检查你是否登录或者是否有相关权限",
-				"option":  common.OptionMap,
 			})
+
 		} else {
 			c.JSON(http.StatusForbidden, gin.H{
 				"success": false,
@@ -52,27 +53,48 @@ func permissionCheckHelper(c *gin.Context, requiredPermission int) {
 	c.Next()
 }
 
-func ImageDownloadPermissionCheck() func(c *gin.Context) {
-	return func(c *gin.Context) {
-		permissionCheckHelper(c, common.ImageDownloadPermission)
-	}
-}
-
 func ImageUploadPermissionCheck() func(c *gin.Context) {
 	return func(c *gin.Context) {
-		permissionCheckHelper(c, common.ImageUploadPermission)
-	}
-}
-
-func FileDownloadPermissionCheck() func(c *gin.Context) {
-	return func(c *gin.Context) {
-		permissionCheckHelper(c, common.FileDownloadPermission)
+		atoi, err := strconv.Atoi(common.OptionMap["ImageUploadPermission"])
+		if err != nil {
+			c.JSON(http.StatusForbidden, gin.H{
+				"success": false,
+				"message": "服务器出岔子了，err:" + err.Error(),
+			})
+			c.Abort()
+			return
+		}
+		permissionCheckHelper(c, atoi)
 	}
 }
 
 func FileUploadPermissionCheck() func(c *gin.Context) {
 	return func(c *gin.Context) {
+		atoi, err := strconv.Atoi(common.OptionMap["FileUploadPermission"])
+		if err != nil {
+			c.JSON(http.StatusForbidden, gin.H{
+				"success": false,
+				"message": "服务器出岔子了，err:" + err.Error(),
+			})
+			c.Abort()
+			return
+		}
+		permissionCheckHelper(c, atoi)
+	}
+}
 
-		permissionCheckHelper(c, common.FileUploadPermission)
+// ShowIndexPermissionCheck 是否可以显示首页
+func ShowIndexPermissionCheck() func(c *gin.Context) {
+	return func(c *gin.Context) {
+		i, err := strconv.Atoi(common.OptionMap["IndexPermission"])
+		if err != nil {
+			c.HTML(http.StatusForbidden, "error.html", gin.H{
+				"message": "服务器出岔子了，err:" + err.Error(),
+				"option":  common.OptionMap,
+			})
+			c.Abort()
+			return
+		}
+		permissionCheckHelper(c, i)
 	}
 }

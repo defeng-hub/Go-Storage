@@ -32,10 +32,14 @@ const (
 )
 
 var (
-	FileUploadPermission    = RoleGuestUser
-	FileDownloadPermission  = RoleGuestUser
-	ImageUploadPermission   = RoleGuestUser
-	ImageDownloadPermission = RoleGuestUser
+	// FileUploadPermission 上传文件的最低权限
+	FileUploadPermission = RoleGuestUser
+
+	// ImageUploadPermission 图库上传的最小权限
+	ImageUploadPermission = RoleGuestUser
+
+	// IndexPermission 首页访问最低权限
+	IndexPermission = RoleCommonUser
 )
 
 const (

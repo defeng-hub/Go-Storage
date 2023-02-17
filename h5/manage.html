@@ -221,19 +221,7 @@
                                                     </span>
                                                         </p>
                                                     </div>
-                                                    <label class="label">文件下载的最低权限要求：</label>
-                                                    <div class="field has-addons">
-                                                        <p class="control">
-                                                    <span class="select">
-                                                      <select id="FileDownloadPermission"
-                                                              onchange="updateOption('FileDownloadPermission', 'FileDownloadPermission')">
-                                                          <option value=0>访客用户</option>
-                                                          <option value=1>普通用户</option>
-                                                          <option value=10>管理员用户</option>
-                                                      </select>
-                                                    </span>
-                                                        </p>
-                                                    </div>
+
                                                     <label class="label">图床上传的最低权限要求：</label>
                                                     <div class="field has-addons">
                                                         <p class="control">
@@ -247,12 +235,13 @@
                                                     </span>
                                                         </p>
                                                     </div>
-                                                    <label class="label">图床下载的最低权限要求：</label>
+
+                                                    <label class="label">首页访问权限：</label>
                                                     <div class="field has-addons">
                                                         <p class="control">
                                                     <span class="select">
-                                                      <select id="ImageDownloadPermission"
-                                                              onchange="updateOption('ImageDownloadPermission', 'ImageDownloadPermission')">
+                                                      <select id="IndexPermission"
+                                                              onchange="updateOption('IndexPermission', 'IndexPermission')">
                                                           <option value=0>访客用户</option>
                                                           <option value=1>普通用户</option>
                                                           <option value=10>管理员用户</option>
@@ -263,9 +252,8 @@
                                                     <script>
                                                         (function () {
                                                             document.getElementById('FileUploadPermission').value = "{{.FileUploadPermission}}";
-                                                            document.getElementById('FileDownloadPermission').value = "{{.FileDownloadPermission}}";
                                                             document.getElementById('ImageUploadPermission').value = "{{.ImageUploadPermission}}";
-                                                            document.getElementById('ImageDownloadPermission').value = "{{.ImageDownloadPermission}}";
+                                                            document.getElementById('IndexPermission').value = "{{.IndexPermission}}";
                                                         })();
                                                     </script>
 
