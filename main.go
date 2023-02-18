@@ -41,6 +41,7 @@ func main() {
 	model.InitOptionMap()
 
 	// Initialize HTTP server
+	gin.SetMode(gin.ReleaseMode)
 	server := gin.Default()
 	server.Static("/static", "./h5")
 	server.SetHTMLTemplate(loadTemplate())

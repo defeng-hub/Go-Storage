@@ -41,15 +41,13 @@
                                         <div class="tabs">
                                             <ul style="margin-left: 0">
                                                 {{if .isAdmin}}
-                                                <li id="statusTabList" class="tab" onclick="openTab(this,'statusTab')">
-                                                    <a>系统状况</a></li>
+                                                <li id="statusTabList" class="tab" onclick="openTab(this,'statusTab')"><a>系统状况</a></li>
                                                 <li id="userTabList" class="tab" onclick="openTab(this,'userTab')"><a>账户管理</a></li>
-                                                <li id="fileTabList" class="tab" onclick="openTab(this,'fileTab')"><a>文件管理</a></li>
+{{/*                                            <li id="fileTabList" class="tab" onclick="openTab(this,'fileTab')"><a>文件管理</a></li>*/}}
                                                 <li id="settingTabList" class="tab" onclick="openTab(this,'settingTab')"><a>系统设置</a></li>
                                                 {{else}}
-                                                <li id="userTabList" class="tab" onclick="openTab(this,'userTab')"><a>账户管理</a>
-                                                </li>
-                                                <li id="fileTabList" class="tab" onclick="openTab(this,'fileTab')"><a>文件管理</a></li>
+                                                <li id="userTabList" class="tab" onclick="openTab(this,'userTab')"><a>账户管理</a></li>
+{{/*                                            <li id="fileTabList" class="tab" onclick="openTab(this,'fileTab')"><a>文件管理</a></li>*/}}
                                                 {{end}}
                                             </ul>
                                         </div>
@@ -190,6 +188,7 @@
                                             </div>
                                             {{end}}
                                         </div>
+
                                         <div id="fileTab" class="content-tab" style="display: none;">
                                             <label class="label">删除指定图片</label>
                                             <div class="field has-addons">

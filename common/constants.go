@@ -11,7 +11,7 @@ import (
 )
 
 var StartTime = time.Now()
-var Version = "v2.0.0"
+var Version = "v3.0.0"
 var OptionMap map[string]string
 var ItemsPerPage = 12       // 首页每页显示12个
 var AbstractTextLength = 40 //文本摘要长度
